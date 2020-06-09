@@ -8,12 +8,13 @@
         <label for="questionInput" class="text-primary">
           Type the question
         </label>
-        <formInput
+        <FormInput
           id="questionInput"
           ref="questionInput"
           v-model="question"
           class="form-control"
           placeholder="What's the name of Han Solo's spaceship?"
+          autofocus
         />
         <small class="form-text text-muted">You better know the answer !</small>
       </div>
@@ -23,7 +24,7 @@
             <label for="rightAnswerInput" class="text-success">
               Give the right answer
             </label>
-            <formInput
+            <FormInput
               id="rightAnswerInput"
               ref="rightAnswerInput"
               v-model="rightAnswer"
@@ -37,7 +38,7 @@
             <label for="wrongAnswer1Input" class="text-danger">
               Give 2 wrong answers
             </label>
-            <formInput
+            <FormInput
               id="wrongAnswer1Input"
               ref="wrongAnswer1Input"
               v-model="wrongAnswer1"
@@ -46,7 +47,7 @@
             />
           </div>
           <div class="form-group">
-            <formInput
+            <FormInput
               id="wrongAnswer2Input"
               ref="wrongAnswer2Input"
               v-model="wrongAnswer2"
@@ -69,13 +70,13 @@
 </template>
 
 <script>
-import formInput from '@/components/formInput'
+import FormInput from '@/components/FormInput'
 
 export default {
   name: 'NewCard',
 
   components: {
-    formInput,
+    FormInput,
   },
 
   data() {
@@ -103,6 +104,17 @@ export default {
     },
     onSubmit() {
       this.validate()
+      this.$store
+        .dispatch('addNewCardAsync', {
+          question: this.question,
+          rightAnswer: this.rightAnswer,
+          wrongAnswer1: this.wrongAnswer1,
+          wrongAnswer2: this.wrongAnswer2,
+        })
+        .then(() => {
+          this.$router.push({ name: 'Home' })
+        })
+        .catch(() => {})
     },
   },
 }

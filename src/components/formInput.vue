@@ -2,6 +2,7 @@
   <input
     v-model="newValue"
     :class="isInvalid ? 'is-invalid' : ''"
+    :autofocus="autofocus"
     @keyup="onChange"
   />
 </template>
@@ -16,6 +17,10 @@ export default {
     value: {
       type: String,
       default: '',
+    },
+    autofocus: {
+      type: Boolean,
+      default: false,
     },
   },
 
