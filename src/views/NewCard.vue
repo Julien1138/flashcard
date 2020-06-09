@@ -14,7 +14,6 @@
           v-model="question"
           class="form-control"
           placeholder="What's the name of Han Solo's spaceship?"
-          autofocus
         />
         <small class="form-text text-muted">You better know the answer !</small>
       </div>
@@ -87,6 +86,11 @@ export default {
       wrongAnswer2: '',
     }
   },
+
+  mounted() {
+    this.$refs.questionInput.$el.focus()
+  },
+
   methods: {
     validate() {
       if (this.question.length === 0) {
