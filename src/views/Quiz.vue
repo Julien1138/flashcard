@@ -21,7 +21,7 @@
             class="btn btn-primary"
             @click="onClickOnNext"
           >
-            Next question
+            {{ nextButtonText }}
           </button>
         </template>
       </QuizCard>
@@ -54,6 +54,18 @@ export default {
 
   computed: {
     ...mapGetters(['cards']),
+
+    lastQuestion() {
+      return this.questionNumber === this.cards.length
+    },
+
+    nextButtonText() {
+      if (this.lastQuestion) {
+        return 'How did I perform ?'
+      } else {
+        return 'Next question'
+      }
+    },
   },
 
   beforeMount() {
@@ -68,8 +80,8 @@ export default {
       }
     },
     onClickOnNext() {
-      if (this.questionNumber === this.cards.length) {
-        this.$router.push({ name: 'Home' })
+      if (this.lastQuestion) {
+        this.$router.push({ name: 'Cheer', params: { score: this.score } })
       }
       this.questionNumber++
     },
