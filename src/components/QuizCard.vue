@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto" style="width: 45rem;">
-    <div class="d-flex justify-content-center mb-4">
+    <div class="d-flex justify-content-center mb-2">
       <slot name="header"></slot>
     </div>
 

@@ -1,24 +1,31 @@
 <template>
   <div class="container mx-auto">
-    <QuizCard :card="cards[0]" @clickOnAnswer="onClickOnAnswer">
-      <template v-slot:header>
-        <h2>Question #1 over {{ cards.length }}</h2>
-      </template>
+    <transition name="quiz-card" mode="out-in">
+      <QuizCard
+        :key="questionNumber"
+        :card="cards[questionNumber - 1]"
+        @clickOnAnswer="onClickOnAnswer"
+      >
+        <template v-slot:header>
+          <h2>Question #{{ questionNumber }} over {{ cards.length }}</h2>
+        </template>
 
-      <template v-slot:score>
-        <p><strong>Score:</strong> {{ score }} / {{ cards.length }}</p>
-      </template>
+        <template v-slot:score>
+          <p><strong>Score:</strong> {{ score }} / {{ cards.length }}</p>
+        </template>
 
-      <template v-slot:nextQuestion="data">
-        <button
-          v-if="data.questionAnswerd"
-          type="button"
-          class="btn btn-primary"
-        >
-          Next question
-        </button>
-      </template>
-    </QuizCard>
+        <template v-slot:nextQuestion="data">
+          <button
+            v-if="data.questionAnswerd"
+            type="button"
+            class="btn btn-primary"
+            @click="onClickOnNext"
+          >
+            Next question
+          </button>
+        </template>
+      </QuizCard>
+    </transition>
   </div>
 </template>
 
@@ -35,6 +42,7 @@ export default {
 
   data() {
     return {
+      questionNumber: 1,
       score: 0,
     }
   },
@@ -51,11 +59,30 @@ export default {
     ...mapActions(['shuffleCardsAndAnswersAsync']),
     onClickOnAnswer(correct) {
       if (correct) {
-        this.score = this.score + 1
+        this.score++
       }
+    },
+    onClickOnNext() {
+      if (this.questionNumber === this.cards.length) {
+        this.$router.push({ name: 'Home' })
+      }
+      this.questionNumber++
     },
   },
 }
 </script>
 
-<style></style>
+<style>
+.quiz-card-enter-active,
+.quiz-card-leave-active {
+  transition: all 0.4s;
+}
+.quiz-card-enter {
+  opacity: 0;
+  transform: translateX(500px);
+}
+.quiz-card-leave-to {
+  opacity: 0;
+  transform: translateX(-500px);
+}
+</style>
