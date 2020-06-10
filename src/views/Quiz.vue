@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div>
     <transition name="quiz-card" mode="out-in">
       <QuizCard
         :key="questionNumber"
@@ -26,6 +26,11 @@
         </template>
       </QuizCard>
     </transition>
+    <div class="row justify-content-md-center mt-2">
+      <router-link :to="{ name: 'Home' }" class="btn btn-warning">
+        Give up
+      </router-link>
+    </div>
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div>
     <div class="row justify-content-md-center">
       <h1>Welcome to the flashcard app</h1>
     </div>
