@@ -1,18 +1,31 @@
 <template>
-  <div class="card text-center mx-auto" style="width: 45rem;">
-    <div class="card-body">
-      <h3 class="card-title">{{ card.question }}</h3>
-      <button
-        v-for="(answer, idx) in answers"
-        :key="idx"
-        type="button"
-        class="btn btn-lg btn-block"
-        :class="buttonVariant(answer)"
-        :disabled="disableButtons"
-        @click="onClickOnAnswer(answer)"
-      >
-        {{ answer.text }}
-      </button>
+  <div class="mx-auto" style="width: 45rem;">
+    <div class="d-flex justify-content-center mb-4">
+      <slot name="header"></slot>
+    </div>
+
+    <div class="card text-center">
+      <div class="card-body">
+        <h3 class="card-title">{{ card.question }}</h3>
+        <button
+          v-for="(answer, idx) in answers"
+          :key="idx"
+          type="button"
+          class="btn btn-lg btn-block"
+          :class="buttonVariant(answer)"
+          :disabled="questionAnswerd"
+          @click="onClickOnAnswer(answer)"
+        >
+          {{ answer.text }}
+        </button>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row justify-content-between mt-3">
+      <slot name="score"><div></div></slot>
+      <slot name="nextQuestion" :questionAnswerd="questionAnswerd"
+        ><div></div
+      ></slot>
     </div>
   </div>
 </template>
@@ -34,8 +47,7 @@ export default {
           selected: false,
         }
       }),
-      disableButtons: false,
-      revealRightAnswer: false,
+      questionAnswerd: false,
     }
   },
 
@@ -47,7 +59,7 @@ export default {
         } else {
           return 'btn-danger'
         }
-      } else if (this.revealRightAnswer && answer.correct) {
+      } else if (this.questionAnswerd && answer.correct) {
         return 'btn-success'
       } else {
         return 'btn-outline-secondary'
@@ -56,8 +68,7 @@ export default {
 
     onClickOnAnswer(answer) {
       answer.selected = true
-      this.disableButtons = true
-      this.revealRightAnswer = true
+      this.questionAnswerd = true
       this.$emit('clickOnAnswer', answer.correct)
     },
   },
