@@ -93,43 +93,50 @@ export default {
 
   methods: {
     validate() {
+      let valid = true
       if (this.question.length === 0) {
         this.$refs.questionInput.isInvalid = true
+        valid = false
       }
       if (this.rightAnswer.length === 0) {
         this.$refs.rightAnswerInput.isInvalid = true
+        valid = false
       }
       if (this.wrongAnswer1.length === 0) {
         this.$refs.wrongAnswer1Input.isInvalid = true
+        valid = false
       }
       if (this.wrongAnswer2.length === 0) {
         this.$refs.wrongAnswer2Input.isInvalid = true
+        valid = false
       }
+      return valid
     },
     onSubmit() {
-      this.validate()
-      this.$store
-        .dispatch('addNewCardAsync', {
-          question: this.question,
-          answers: [
-            {
-              text: this.rightAnswer,
-              correct: true,
-            },
-            {
-              text: this.wrongAnswer1,
-              correct: false,
-            },
-            {
-              text: this.wrongAnswer2,
-              correct: false,
-            },
-          ],
-        })
-        .then(() => {
-          this.$router.push({ name: 'Home' })
-        })
-        .catch(() => {})
+      if (this.validate()) {
+        this.$store
+          .dispatch('addNewCardAsync', {
+            question: this.question,
+            answers: [
+              {
+                text: this.rightAnswer,
+                correct: true,
+              },
+              {
+                text: this.wrongAnswer1,
+                correct: false,
+              },
+              {
+                text: this.wrongAnswer2,
+                correct: false,
+              },
+            ],
+          })
+          .then(() => {
+            this.$router.push({ name: 'Home' })
+          })
+          .catch(() => {})
+      }
     },
   },
 }
