@@ -13,11 +13,11 @@ export default {
   },
 
   beforeMount() {
-    this.shuffleCardsAsync()
+    this.shuffleCardsAndAnswersAsync()
   },
 
   methods: {
-    ...mapActions(['shuffleCardsAsync']),
+    ...mapActions(['shuffleCardsAndAnswersAsync']),
   },
 }
 </script>

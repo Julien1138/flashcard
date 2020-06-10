@@ -6,39 +6,96 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   getters: {
     cards: state => state.cards,
+    cardsCount: state => state.cards.length,
   },
 
   state: {
     cards: [
       {
-        question: 'Question #1',
-        rightAnswer: 'Right answer',
-        wrongAnswer1: 'Wrong Answer #1',
-        wrongAnswer2: 'Wrong Answer #2',
+        question: 'In the saga, Luke and Leia are:',
+        answers: [
+          {
+            text: 'Brother and sister',
+            correct: true,
+          },
+          {
+            text: 'A couple',
+            correct: false,
+          },
+          {
+            text: 'Father and daughter',
+            correct: false,
+          },
+        ],
       },
       {
-        question: 'Question #2',
-        rightAnswer: 'Right answer',
-        wrongAnswer1: 'Wrong Answer #1',
-        wrongAnswer2: 'Wrong Answer #2',
+        question: 'What is order 66?',
+        answers: [
+          {
+            text: 'The order given to the clones to kill every Jedi',
+            correct: true,
+          },
+          {
+            text:
+              'The order given to the clones to free Anakin and Padme on Geonosis',
+            correct: false,
+          },
+          {
+            text: 'The order given to the rebels to destroy the black star',
+            correct: false,
+          },
+        ],
       },
       {
-        question: 'Question #3',
-        rightAnswer: 'Right answer',
-        wrongAnswer1: 'Wrong Answer #1',
-        wrongAnswer2: 'Wrong Answer #2',
+        question: 'Where does Luke Skywalker meet Yoda for the first time?',
+        answers: [
+          {
+            text: 'Coruscant',
+            correct: false,
+          },
+          {
+            text: 'Dagobah',
+            correct: true,
+          },
+          {
+            text: 'Yavin IV',
+            correct: false,
+          },
+        ],
       },
       {
-        question: 'Question #4',
-        rightAnswer: 'Right answer',
-        wrongAnswer1: 'Wrong Answer #1',
-        wrongAnswer2: 'Wrong Answer #2',
+        question: 'Which actor plays Mace Windu?',
+        answers: [
+          {
+            text: 'Laurence Fishburn',
+            correct: false,
+          },
+          {
+            text: 'Harisson Ford',
+            correct: false,
+          },
+          {
+            text: 'Samuel L. Jackson',
+            correct: true,
+          },
+        ],
       },
       {
-        question: 'Question #5',
-        rightAnswer: 'Right answer',
-        wrongAnswer1: 'Wrong Answer #1',
-        wrongAnswer2: 'Wrong Answer #2',
+        question: 'Lightsabers work thanks to:',
+        answers: [
+          {
+            text: 'A diamond',
+            correct: false,
+          },
+          {
+            text: 'The Force',
+            correct: false,
+          },
+          {
+            text: 'A crystal',
+            correct: true,
+          },
+        ],
       },
     ],
   },
@@ -47,7 +104,15 @@ export default new Vuex.Store({
     addNewCard(state, card) {
       state.cards.push(card)
     },
+
     shuffleCards(state) {
+      shuffleArray(state.cards)
+    },
+
+    shuffleAllAnswers(state) {
+      state.cards.forEach(card => {
+        shuffleArray(card.answers)
+      })
       shuffleArray(state.cards)
     },
   },
@@ -57,8 +122,9 @@ export default new Vuex.Store({
       commit('addNewCard', card)
     },
 
-    shuffleCardsAsync({ commit }) {
+    shuffleCardsAndAnswersAsync({ commit }) {
       commit('shuffleCards')
+      commit('shuffleAllAnswers')
     },
   },
 })

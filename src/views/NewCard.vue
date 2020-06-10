@@ -111,9 +111,20 @@ export default {
       this.$store
         .dispatch('addNewCardAsync', {
           question: this.question,
-          rightAnswer: this.rightAnswer,
-          wrongAnswer1: this.wrongAnswer1,
-          wrongAnswer2: this.wrongAnswer2,
+          answers: [
+            {
+              text: this.rightAnswer,
+              correct: true,
+            },
+            {
+              text: this.wrongAnswer1,
+              correct: false,
+            },
+            {
+              text: this.wrongAnswer2,
+              correct: false,
+            },
+          ],
         })
         .then(() => {
           this.$router.push({ name: 'Home' })
