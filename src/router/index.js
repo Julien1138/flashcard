@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
-import NewCard from '@/views/NewCard.vue'
-import Quiz from '@/views/Quiz.vue'
 
 Vue.use(VueRouter)
 
@@ -15,22 +13,14 @@ const routes = [
   {
     path: '/new-card',
     name: 'NewCard',
-    component: NewCard,
+    component: () =>
+      import(/* webpackChunkName: "NewCardForm" */ '@/views/NewCardForm.vue'),
   },
   {
     path: '/quiz',
     name: 'Quiz',
-    component: Quiz,
+    component: () => import(/* webpackChunkName: "Quiz" */ '@/views/Quiz.vue'),
   },
-  // {
-  //   path: "/about",
-  //   name: "About",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/About.vue")
-  // }
 ]
 
 const router = new VueRouter({
